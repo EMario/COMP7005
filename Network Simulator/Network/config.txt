@@ -1,0 +1,14 @@
+networkIP = 192.168.0.8;
+serverIP = 192.168.0.5;
+clientIP = 192.168.0.4;
+port_network = 7005;
+port_server = 7005;
+windowSize = 16;
+bufferLength = 32;
+timeout = 5000;
+errorRate = 2;
+packetRate = 1000;
+mode = 1;
+log_file = log.txt;
+
+
