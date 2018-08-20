@@ -1,14 +1,19 @@
-////////////////////////////////
+/////////////////////////////////////////////////////////////
 //
 //	Author: Mario Enriquez
 //
 //	ID: A00909441
 //
-//	Client Emulator
-//
 //	COMP 7005
 //
-////////////////////////////////
+//	Client Emulator
+//  
+//  Part of a network simulator. Simulates the client part
+//  While the packets are Datagrams (UDP), the packets are
+//  set to simulate a TCP connection. The client sends 
+//  packets and logs results
+//
+/////////////////////////////////////////////////////////////
 
 import java.io.*; 
 import java.net.*; 
@@ -118,7 +123,7 @@ class UDPClient {
 		}
 	}
 
-	public void sendPacket(int type, int sequence,byte[] data){
+	public void sendPacket(int type, int sequence,byte[] data){ //sends packet to server
 		try{
 			byte[] sendData = createPacket(type,sequence,data.length,data);
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, UDPNetworkPort);       
@@ -129,7 +134,7 @@ class UDPClient {
 		}
 	}
 	
-	public int receivePacket(){
+	public int receivePacket(){ // receives packet from server
 		try {		
 			byte[] receiveData = new byte[bufferLength+15];       
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -146,7 +151,7 @@ class UDPClient {
 		return 1;
 	}
 	
-	public byte[] createPacket(int packetType, int sequenceNo, int dataSize, byte[] data){
+	public byte[] createPacket(int packetType, int sequenceNo, int dataSize, byte[] data){ // Creates packet data 
 		String sPacketType = packetType+"";
 		String sSequence = (sequenceNo + "          ").substring(0,10);
 		String sData= (dataSize + "    ").substring(0,4);
@@ -159,7 +164,7 @@ class UDPClient {
 		return byteArray;
 	} 
 	
-	public void retrievePacketData(byte[] packet){
+	public void retrievePacketData(byte[] packet){ //retrieves data from received packet
 		String aux = ((new String(packet)).substring(0,1));
 		receivedType = Integer.parseInt(aux);
 		aux = (new String(packet)).substring(1,11).replaceAll("\\s+","");
@@ -176,7 +181,7 @@ class UDPClient {
 		}
 	}
 	
-	public void sendDataMode(){
+	public void sendDataMode(){ //Sends data to a server after making the package
 		try{
 			System.out.println("Sending File: " + client_file + " Size: " + fileSize);
 			fileToSend = new RandomAccessFile((path + "/client_files/" + client_file),"r");
@@ -264,7 +269,7 @@ class UDPClient {
 		
 	}
 	
-	public void receiveDataMode(){
+	public void receiveDataMode(){ // Receives packet from server and logs the result
 		try{
 			int resend=0;
 			fileReceived = new RandomAccessFile((path + "/client_files/" + server_file),"rw");
@@ -318,7 +323,7 @@ class UDPClient {
 		}
 	}
 	
-	public void transmission(){
+	public void transmission(){ //Start and end of a transmission 
 		int currentMode=0;
 		int resend;
 		byte[] data;

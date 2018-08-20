@@ -1,14 +1,20 @@
-////////////////////////////////
+//////////////////////////////////////////////////////////////
 //
 //	Author: Mario Enriquez
 //
 //	ID: A00909441
 //
-//	Network Emulator
-//
 //	COMP 7005
 //
-////////////////////////////////
+//	Network Emulator
+//  
+//  Part of a network simulator. Simulates the network part
+//  A drop rate for the UDP packages is set by the user
+//  When a UDP packet is traveling through this machine, the
+//  packet is forwarded or dropped depending on the set drop
+//  rate
+//
+//////////////////////////////////////////////////////////////
 
 import java.io.*; 
 import java.net.*;
@@ -85,7 +91,7 @@ class UDPNetwork {
 		}
 	}
 	
-	public static void main(String args[]) throws Exception       {       
+	public static void main(String args[]) throws Exception       {    // Main, accepts and drops or redirects packages through drop rate   
 		boolean cont=true;
 		UDPNetwork udpNetwork =  new UDPNetwork();
 		String config=udpNetwork.getConfig();

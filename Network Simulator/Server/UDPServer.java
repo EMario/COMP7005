@@ -1,14 +1,20 @@
-////////////////////////////////
+/////////////////////////////////////////////////////////////
 //
 //	Author: Mario Enriquez
 //
 //	ID: A00909441
 //
-//	Server Emulator
-//
 //	COMP 7005
 //
-////////////////////////////////
+//	Client Emulator
+//  
+//  Part of a network simulator. Simulates the server part
+//  While the packets are Datagrams (UDP), the packets are
+//  set to simulate a TCP connection. The server receives 
+//  packets and logs results before sending packets with 
+//  Acknowledgments
+//
+/////////////////////////////////////////////////////////////
 
 import java.io.*; 
 import java.net.*;
@@ -112,7 +118,7 @@ class UDPServer {
 		}
 	}
 	
-	public void sendPacket(int type, int sequence,byte[] data){
+	public void sendPacket(int type, int sequence,byte[] data){ //Sends packet
 		try{
 			byte[] sendData = createPacket(type,sequence,data.length,data);
 			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, UDPNetworkPort);       
@@ -123,7 +129,7 @@ class UDPServer {
 		}
 	}
 	
-	public int receivePacket(){
+	public int receivePacket(){ //Receives packet
 		try {		
 			byte[] receiveData = new byte[bufferLength+15];       
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -141,7 +147,7 @@ class UDPServer {
 		return 1;
 	}
 	
-	public byte[] createPacket(int packetType, int sequenceNo, int dataSize, byte[] data){
+	public byte[] createPacket(int packetType, int sequenceNo, int dataSize, byte[] data){ //Creates packet
 		String sPacketType = packetType+"";
 		String sSequence = (sequenceNo + "          ").substring(0,10);
 		String sData= (dataSize + "    ").substring(0,4);
@@ -154,7 +160,7 @@ class UDPServer {
 		return byteArray;
 	} 
 	
-	public void retrievePacketData(byte[] packet){
+	public void retrievePacketData(byte[] packet){ //Retrieves data from packet for analysis
 		String aux = ((new String(packet)).substring(0,1));
 		receivedType = Integer.parseInt(aux);
 		aux = (new String(packet)).substring(1,11).replaceAll("\\s+","");
@@ -171,7 +177,7 @@ class UDPServer {
 		}
 	}
 	
-		public void sendDataMode(){
+		public void sendDataMode(){ //Mode for the server to send data
 		try{
 			System.out.println("Sending File: " + server_file + " Size: " + fileSize);
 			fileToSend = new RandomAccessFile((path + "/server_files/" + server_file),"r");
@@ -259,7 +265,7 @@ class UDPServer {
 		
 	}
 	
-	public void receiveDataMode(){
+	public void receiveDataMode(){ //Mode for the server to receive data
 		try{
 			int resend=0;
 			fileReceived = new RandomAccessFile((path + "/server_files/" + client_file),"rw");
@@ -313,7 +319,7 @@ class UDPServer {
 		}
 	}
 	
-	public void serverConnection(){
+	public void serverConnection(){ //Establishes connection with client, manages transmission and closes connection
 		int currentMode=0;
 		int resend;
 		byte[] data;
